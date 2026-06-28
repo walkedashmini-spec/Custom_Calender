@@ -1,0 +1,51 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+/* Shared sidebar style */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -350px; /* hidden off-screen */
+  width: 350px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 20px;
+}
+.sidebar.active {
+  right: 0; /* slides in when active */
+}
+
+/* Calendar container shifts slightly when sidebar opens */
+.container {
+  max-width: 900px;
+  margin: auto;
+  transition: margin-right 0.3s ease;
+}
+.container.sidebar-open {
+  margin-right: 350px;
+}
+
+
+
+.event-bullet {
+  background-color: blue;
+  color: white;
+  font-size: 0.7em;
+  border-radius: 3px;
+  margin-top: 2px;
+  padding: 0 4px;
+  display: inline-block;
+}
+#sidebar input {
+  font-size: 0.9em;
+}
+#sidebar h5 {
+  margin-top: 15px;
+}
+
