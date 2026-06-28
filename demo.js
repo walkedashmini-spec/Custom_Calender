@@ -1,5 +1,3 @@
-RAPIDAPI_KEY="8b179a846dmsh8418d2819829f05p17f10bjsnf7fffe2c698e"
-CALENDARIFIC_KEY="V8NN2UuSrB5cq8Ek4kFASMNiZ5TBx39W"
 
 let today = new Date();
 let currentMonth = today.getMonth();
