@@ -1,4 +1,5 @@
-
+RAPIDAPI_KEY="8b179a846dmsh8418d2819829f05p17f10bjsnf7fffe2c698e"
+CALENDARIFIC_KEY="V8NN2UuSrB5cq8Ek4kFASMNiZ5TBx39W"
 
 let today = new Date();
 let currentMonth = today.getMonth();
@@ -28,7 +29,7 @@ const options = {
 	const response = await fetch(url, options);
 	const data = await response.json();
 
-  weatherCache = {};
+  
   if (data.list && Array.isArray(data.list)) {
     data.list.forEach(entry => {
       const dateStr = entry.dt_txt.split(" ")[0]; // YYYY-MM-DD
@@ -43,35 +44,53 @@ const options = {
       });
     });
   }
-
+localStorage.setItem("weatherCache", JSON.stringify(weatherCache));
+localStorage.setItem("lastWeatherFetchDate", todayStr);
   lastWeatherFetchDate = todayStr;
 }
 
-async function loadHolidays(year)
-{
-  const url =`https://calendarific.com/api/v2/holidays?&api_key=${CALENDARIFIC_KEY}&country=IN&year=${year}`
-  const res =await fetch(url)
-  const data=await res.json()
-  holidays={};
+async function loadHolidays(year) {
+  // Check if we already have holidays for this year
+  const savedHolidays = localStorage.getItem(`holidays_${year}`);
+  if (savedHolidays) {
+    holidays = JSON.parse(savedHolidays);
+    return; // ✅ use cached data
+  }
+
+  // If not cached, fetch fresh data
+  const url = `https://calendarific.com/api/v2/holidays?&api_key=${CALENDARIFIC_KEY}&country=IN&year=${year}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  holidays = {};
 
   if (data.response && Array.isArray(data.response.holidays)) {
     data.response.holidays.forEach(h => {
-      const dateStr =h.date.iso // use ISO date string
-      if(!holidays[dateStr])
-      {
-        holidays[dateStr]=[]
+      const dateStr = h.date.iso;
+      if (!holidays[dateStr]) {
+        holidays[dateStr] = [];
       }
       holidays[dateStr].push({
-        name:h.name,
-        description:h.description,
-        type:h.type,
-        primary_type:h.primary_type
+        name: h.name,
+        description: h.description,
+        type: h.type,
+        primary_type: h.primary_type
       });
     });
+
+    //  Save only this year’s holidays
+    localStorage.setItem(`holidays_${year}`, JSON.stringify(holidays));
+
+    //  Optional: clear previous year to avoid localStorage bloat
+    for (let i = 2000; i <= 2100; i++) { // adjust range as needed
+      if (i !== year) {
+        localStorage.removeItem(`holidays_${i}`);
+      }
+    }
   } else {
     console.error("Holiday API error:", data);
   }
 }
+
 function generateCalendar(year, month) {
   const monthYear = document.getElementById("monthYear");
   const calendarBody = document.getElementById("calendarBody");
@@ -358,7 +377,19 @@ document.getElementById("removeEventBtn").addEventListener("click", () => {
 
 (async () => {
   await loadHolidays(currentYear);
-   await loadWeather();
+
+  // Restore cache if available
+  const todayStr = new Date().toISOString().split("T")[0];
+  const savedWeatherCache = localStorage.getItem("weatherCache");
+  const savedWeatherDate = localStorage.getItem("lastWeatherFetchDate");
+
+  if (savedWeatherCache && savedWeatherDate === todayStr) {
+    weatherCache = JSON.parse(savedWeatherCache);
+    lastWeatherFetchDate = savedWeatherDate;
+  } else {
+    await loadWeather();
+  }
+
   generateCalendar(currentYear, currentMonth);
   checkReminders();
-})()
+})();
