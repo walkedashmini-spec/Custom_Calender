@@ -1,0 +1,21 @@
+/* Theme 3: Pirate Seas — adventurous fantasy pirates */
+[data-theme="pirate"] {
+  --font-family: 'Cinzel', serif;
+  --color-accent: #C9A227;
+  --color-accent-hover: #E0B840;
+  --color-today-glow: #C9A227;
+  --color-today-bg: rgba(201, 162, 39, 0.2);
+  --color-selected-glow: #C9A227;
+  --color-event-badge: rgba(46, 134, 171, 0.85);
+  --bg-page-start: #2E86AB;
+  --bg-page-mid: #8B6914;
+  --bg-page-end: #5C4033;
+  --glass-bg: rgba(212, 165, 116, 0.12);
+  --glass-border: rgba(201, 162, 39, 0.3);
+  --focus-ring: 0 0 0 3px rgba(201, 162, 39, 0.5);
+}
+
+[data-theme="pirate"] .bg-fallback {
+  background: radial-gradient(ellipse at 20% 50%, rgba(201, 162, 39, 0.1) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 80%, rgba(46, 134, 171, 0.12) 0%, transparent 40%);
+}

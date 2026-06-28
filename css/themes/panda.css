@@ -1,0 +1,28 @@
+/* Theme 4: Deep Panda Forest — magical bamboo forest */
+[data-theme="panda"] {
+  --font-family: 'Cormorant Garamond', serif;
+  --color-accent: #52B788;
+  --color-accent-hover: #74C69D;
+  --color-today-glow: #52B788;
+  --color-today-bg: rgba(82, 183, 136, 0.2);
+  --color-selected-glow: #95D5B2;
+  --color-event-badge: rgba(45, 106, 79, 0.85);
+  --bg-page-start: #1B4332;
+  --bg-page-mid: #2D6A4F;
+  --bg-page-end: #081C15;
+  --glass-bg: rgba(216, 243, 220, 0.08);
+  --glass-border: rgba(82, 183, 136, 0.25);
+  --color-text: rgba(216, 243, 220, 0.95);
+  --color-text-muted: rgba(216, 243, 220, 0.65);
+  --color-text-subtle: rgba(216, 243, 220, 0.4);
+  --focus-ring: 0 0 0 3px rgba(82, 183, 136, 0.5);
+}
+
+[data-theme="panda"] .bg-fallback {
+  background: radial-gradient(ellipse at 40% 60%, rgba(82, 183, 136, 0.1) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 30%, rgba(149, 213, 178, 0.06) 0%, transparent 40%);
+}
+
+[data-theme="panda"] .calendar-table tbody td {
+  background: rgba(216, 243, 220, 0.03);
+}

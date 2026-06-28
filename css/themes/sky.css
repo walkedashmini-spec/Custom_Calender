@@ -1,0 +1,21 @@
+/* Theme 2: Sky Castle — floating castles inspired */
+[data-theme="sky"] {
+  --font-family: 'Quicksand', sans-serif;
+  --color-accent: #B8A9E8;
+  --color-accent-hover: #D4C8F0;
+  --color-today-glow: #FFD700;
+  --color-today-bg: rgba(255, 215, 0, 0.15);
+  --color-selected-glow: #FFD700;
+  --color-event-badge: rgba(135, 206, 235, 0.85);
+  --bg-page-start: #87CEEB;
+  --bg-page-mid: #6B8DD6;
+  --bg-page-end: #8E7CC3;
+  --glass-bg: rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --focus-ring: 0 0 0 3px rgba(184, 169, 232, 0.5);
+}
+
+[data-theme="sky"] .bg-fallback {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 90%, rgba(255, 215, 0, 0.08) 0%, transparent 40%);
+}

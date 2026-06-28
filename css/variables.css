@@ -1,0 +1,61 @@
+/* Shared design tokens — theme files override semantic colors */
+:root {
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-bg-strong: rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-blur: 16px;
+
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-lift: 0 12px 40px rgba(0, 0, 0, 0.18);
+  --shadow-glow: 0 0 20px rgba(255, 255, 255, 0.15);
+
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --nav-height: 64px;
+  --sidebar-width: 380px;
+  --container-max: 900px;
+
+  --font-family: 'Outfit', sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+
+  --color-text: rgba(255, 255, 255, 0.95);
+  --color-text-muted: rgba(255, 255, 255, 0.65);
+  --color-text-subtle: rgba(255, 255, 255, 0.45);
+
+  --color-accent: #5BC0EB;
+  --color-accent-hover: #7DD3FC;
+  --color-btn-gradient-start: rgba(255, 255, 255, 0.2);
+  --color-btn-gradient-end: rgba(255, 255, 255, 0.08);
+
+  --color-today-glow: #5BC0EB;
+  --color-today-bg: rgba(91, 192, 235, 0.2);
+  --color-selected-glow: #FFD700;
+  --color-holiday-national: rgba(220, 53, 69, 0.35);
+  --color-holiday-national-border: rgba(220, 53, 69, 0.6);
+  --color-holiday-observance: rgba(40, 167, 69, 0.35);
+  --color-holiday-observance-border: rgba(40, 167, 69, 0.6);
+  --color-event-badge: rgba(59, 130, 246, 0.85);
+  --color-event-badge-text: #ffffff;
+
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+
+  --bg-page-start: #0077B6;
+  --bg-page-mid: #023E8A;
+  --bg-page-end: #03045E;
+
+  --focus-ring: 0 0 0 3px rgba(91, 192, 235, 0.5);
+}

@@ -1,57 +1,233 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="ocean">
 <head>
   <meta charset="UTF-8">
-  <title>Your Calendar </title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mystic Calendar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link id="theme-font" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/themes/ocean.css">
+  <link rel="stylesheet" href="css/themes/sky.css">
+  <link rel="stylesheet" href="css/themes/pirate.css">
+  <link rel="stylesheet" href="css/themes/panda.css">
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container my-4">
-  <h1 class="text-center mb-4">Your Calendar</h1>
-  <div class="d-flex justify-content-between mb-3">
-    <button id="prevBtn" class="btn btn-primary">Previous</button>
-    <h3 id="monthYear"></h3>
-    <button id="nextBtn" class="btn btn-primary">Next</button>
-   
+  <canvas id="appBackground" aria-hidden="true"></canvas>
+  <div class="bg-fallback" aria-hidden="true"></div>
+
+  <!-- Top Navigation -->
+  <nav class="top-nav" aria-label="Main navigation">
+    <div class="nav-left">
+      <div class="app-logo" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+          <path d="M16 4C16 4 20 10 20 16C20 22 16 28 16 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16 4C16 4 12 10 12 16C12 22 16 28 16 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="3" fill="currentColor"/>
+        </svg>
+        <span class="logo-text">Horizon Planner</span>
+      </div>
+    </div>
+
+    <div class="nav-center">
+      <button id="prevBtn" class="btn btn-nav" aria-label="Previous month">
+        <i data-lucide="chevron-left"></i>
+      </button>
+      <h2 id="monthYear" class="month-year"></h2>
+      <button id="nextBtn" class="btn btn-nav" aria-label="Next month">
+        <i data-lucide="chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <button id="allEventsBtn" class="btn btn-pill" aria-label="All events">
+        <i data-lucide="calendar-days"></i>
+        <span class="btn-label">All Events</span>
+      </button>
+      <button id="settingsBtn" class="btn btn-pill btn-icon-only" aria-label="Settings">
+        <i data-lucide="settings"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div class="calendar-wrapper glass-card">
+        <table class="calendar-table" role="grid" aria-label="Calendar">
+          <thead>
+            <tr role="row">
+              <th scope="col">Sun</th>
+              <th scope="col">Mon</th>
+              <th scope="col">Tue</th>
+              <th scope="col">Wed</th>
+              <th scope="col">Thu</th>
+              <th scope="col">Fri</th>
+              <th scope="col">Sat</th>
+            </tr>
+          </thead>
+          <tbody id="calendarBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Backdrop for sidebars -->
+  <div id="sidebarBackdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+
+  <!-- Date Detail Sidebar -->
+  <aside id="sidebar" class="sidebar" role="dialog" aria-modal="true" aria-labelledby="sidebarTitle">
+    <div class="sidebar-header">
+      <h3 id="sidebarTitle" class="sidebar-title">
+        <i data-lucide="calendar"></i>
+        Holiday / Event Details
+      </h3>
+      <button id="closeSidebar" class="btn btn-close" aria-label="Close sidebar">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div id="holidayInfo" class="sidebar-content"></div>
+    <div class="sidebar-section glass-card-inner">
+      <h5 class="section-title">
+        <i data-lucide="sparkles"></i>
+        Manage Event
+      </h5>
+      <input type="date" id="eventDate" class="form-input" aria-label="Event date">
+      <input type="text" id="eventDesc" class="form-input" placeholder="Event description" aria-label="Event description">
+      <div class="btn-group">
+        <button id="addEventBtn" class="btn btn-pill btn-success">
+          <i data-lucide="plus"></i>
+          Add Event
+        </button>
+        <button id="removeEventBtn" class="btn btn-pill btn-danger">
+          <i data-lucide="minus"></i>
+          Remove Event
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- All Events Sidebar -->
+  <aside id="allEventsSidebar" class="sidebar" role="dialog" aria-modal="true" aria-labelledby="allEventsTitle">
+    <div class="sidebar-header">
+      <h3 id="allEventsTitle" class="sidebar-title">
+        <i data-lucide="calendar-days"></i>
+        All Events for <span id="eventsMonthYear"></span>
+      </h3>
+      <button id="closeAllEventsSidebar" class="btn btn-close" aria-label="Close all events">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div id="allEventsList" class="sidebar-content"></div>
+  </aside>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" aria-hidden="true">
+    <div class="modal glass-card">
+      <div class="modal-header">
+        <h3 id="settingsTitle" class="modal-title">
+          <i data-lucide="settings"></i>
+          Settings
+        </h3>
+        <button id="closeSettingsBtn" class="btn btn-close" aria-label="Close settings">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <section class="settings-section">
+          <h4 class="settings-label">
+            <i data-lucide="palette"></i>
+            Theme
+          </h4>
+          <div class="theme-grid" role="radiogroup" aria-label="Choose theme">
+            <button class="theme-card" data-theme="ocean" role="radio" aria-checked="true">
+              <div class="theme-swatches">
+                <span style="background:#5BC0EB"></span>
+                <span style="background:#3A86FF"></span>
+                <span style="background:#0077B6"></span>
+                <span style="background:#CAF0F8"></span>
+              </div>
+              <span class="theme-name">Ocean Kingdom</span>
+            </button>
+            <button class="theme-card" data-theme="sky" role="radio" aria-checked="false">
+              <div class="theme-swatches">
+                <span style="background:#87CEEB"></span>
+                <span style="background:#B8A9E8"></span>
+                <span style="background:#F0F4FF"></span>
+                <span style="background:#FFD700"></span>
+              </div>
+              <span class="theme-name">Sky Castle</span>
+            </button>
+            <button class="theme-card" data-theme="pirate" role="radio" aria-checked="false">
+              <div class="theme-swatches">
+                <span style="background:#8B6914"></span>
+                <span style="background:#D4A574"></span>
+                <span style="background:#2E86AB"></span>
+                <span style="background:#C9A227"></span>
+              </div>
+              <span class="theme-name">Pirate Seas</span>
+            </button>
+            <button class="theme-card" data-theme="panda" role="radio" aria-checked="false">
+              <div class="theme-swatches">
+                <span style="background:#1B4332"></span>
+                <span style="background:#52B788"></span>
+                <span style="background:#2D6A4F"></span>
+                <span style="background:#D8F3DC"></span>
+              </div>
+              <span class="theme-name">Deep Panda Forest</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <h4 class="settings-label">
+            <i data-lucide="volume-2"></i>
+            Preferences
+          </h4>
+          <div class="toggle-row">
+            <label for="soundToggle">Sound Effects</label>
+            <button id="soundToggle" class="toggle-switch" role="switch" aria-checked="false" aria-label="Toggle sound effects">
+              <span class="toggle-knob"></span>
+            </button>
+          </div>
+          <div class="toggle-row">
+            <label for="animationToggle">Animations</label>
+            <button id="animationToggle" class="toggle-switch active" role="switch" aria-checked="true" aria-label="Toggle animations">
+              <span class="toggle-knob"></span>
+            </button>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <button id="resetThemeBtn" class="btn btn-pill btn-outline">
+            <i data-lucide="rotate-ccw"></i>
+            Reset Theme
+          </button>
+        </section>
+
+        <section class="settings-section about-section">
+          <h4 class="settings-label">
+            <i data-lucide="info"></i>
+            About
+          </h4>
+          <p class="about-text">Mystic Calendar — a premium fantasy productivity app with personal events, holidays, weather forecasts, and reminders.</p>
+          <p class="about-text about-credits">Powered by Calendarific &amp; OpenWeather APIs</p>
+        </section>
+      </div>
+    </div>
   </div>
 
-  
-
-  <table class="table table-bordered text-center">
-    <thead class="table-secondary">
-      <tr>
-        <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
-        <th>Thu</th><th>Fri</th><th>Sat</th>
-      </tr>
-    </thead>
-    <tbody id="calendarBody"></tbody>
-  </table>
-</div>
-
-<div id="sidebar" class="sidebar">
-  <h4>Holiday / Event Details</h4>
-  <div id="holidayInfo"></div>
-
-  <h5 class="mt-3">Manage Event</h5>
-  <input type="date" id="eventDate" class="form-control mb-2">
-  <input type="text" id="eventDesc" class="form-control mb-2" placeholder="Event description">
-  <div class="d-flex">
-    <button id="addEventBtn" class="btn btn-success me-2">Add Event</button>
-    <button id="removeEventBtn" class="btn btn-danger">Remove Event</button>
-  </div>
-  <button id="closeSidebar" class="btn btn-secondary mt-3">Close</button>
-</div>
-<div id="allEventsSidebar" class="sidebar">
-  <h4>All Events for <span id="eventsMonthYear"></span></h4>
-  <div id="allEventsList"></div>
-  <button id="closeAllEventsSidebar" class="btn btn-secondary mt-3">Close</button>
-</div>
-<button id="allEventsBtn" class="btn btn-info">All Events</button>
-
-<script src="demo.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/sound-manager.js"></script>
+  <script src="js/background.js"></script>
+  <script src="js/theme-manager.js"></script>
+  <script src="demo.js"></script>
 </body>
 </html>
-
- 

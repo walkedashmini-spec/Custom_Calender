@@ -1,0 +1,19 @@
+/* Theme 1: Ocean Kingdom — Atlantis inspired */
+[data-theme="ocean"] {
+  --font-family: 'Outfit', sans-serif;
+  --color-accent: #5BC0EB;
+  --color-accent-hover: #7DD3FC;
+  --color-today-glow: #5BC0EB;
+  --color-today-bg: rgba(91, 192, 235, 0.2);
+  --color-selected-glow: #CAF0F8;
+  --color-event-badge: rgba(59, 130, 246, 0.85);
+  --bg-page-start: #0077B6;
+  --bg-page-mid: #023E8A;
+  --bg-page-end: #03045E;
+  --focus-ring: 0 0 0 3px rgba(91, 192, 235, 0.5);
+}
+
+[data-theme="ocean"] .bg-fallback {
+  background: radial-gradient(ellipse at 30% 80%, rgba(91, 192, 235, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 20%, rgba(0, 180, 216, 0.1) 0%, transparent 40%);
+}
